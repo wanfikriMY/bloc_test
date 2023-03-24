@@ -1,16 +1,25 @@
 # bloc_test
 
-A new Flutter project.
+To test sink and stream approach
 
-## Getting Started
+using `StreamBuilder` to build the widget with the data.
 
-This project is a starting point for a Flutter application.
+# Notes 
 
-A few resources to get you started if this is your first Flutter project:
+## Stream data
+1. Initialize `StreamController` of data.
+   ie: `late StreamController<String> fetchUserDataController;`
+2. Create getter of the controller using `StreamSink` and set the `StreamController` in (1) as sink.
+   ie: `StreamSink<String> get fetchUserDataSink => fetchUserDataController.sink;`.
+3. Broadcast the controller ` fetchUserDataController = StreamController<String>.broadcast();`
+4. Create funtion to process the data and fetch the data from the API.
+5. use `.add(data)` to add data into the stream so the data will be updated to all listener controller.
+   ie: `fetchUserDataSink.add(userData);`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Listen data
+1. Initialize the class of the `StreamController`
+   `late BlocWrapper blocWrapper;`
+2. to get the data, call the function used to fetch and process data in `initState` if want to fetch in early of screen rendering
+` blocWrapper.getUserData();`
+3. To render the data use `StreamBuilder` and stream data from stream controller
+`blocWrapper.fetchUserDataController.stream`
